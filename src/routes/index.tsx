@@ -1,5 +1,6 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { ExpenseItem } from "@/components/ExpenseItem";
 import { CategoryChip } from "@/components/CategoryChip";
@@ -7,14 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   addExpense,
-  parseExpense,
   todayISO,
   useExpenses,
   formatINR,
   CATEGORIES,
 } from "@/lib/expenses";
+import { parseExpenseAI } from "@/lib/ai-parse.functions";
 import { toast } from "sonner";
-import { Plus, Sparkles } from "lucide-react";
+import { Plus, Sparkles, Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -40,7 +41,9 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const expenses = useExpenses();
+  const parseAI = useServerFn(parseExpenseAI);
 
   const today = todayISO();
   const todays = useMemo(
@@ -49,24 +52,31 @@ function Home() {
   );
   const todayTotal = todays.reduce((s, e) => s + e.amount, 0);
 
-  const preview = input.trim() ? parseExpense(input) : null;
-
-  function submit(e: FormEvent) {
+  async function submit(e: FormEvent) {
     e.preventDefault();
-    const parsed = parseExpense(input);
-    if (!parsed) {
-      toast.error("Include an amount, e.g. '250 zomato dinner'");
-      return;
+    const text = input.trim();
+    if (!text || loading) return;
+    setLoading(true);
+    try {
+      const parsed = await parseAI({ data: { text } });
+      if (parsed.amount === null) {
+        toast.error("Please include an amount, e.g. '250 zomato dinner'");
+        return;
+      }
+      addExpense({
+        amount: parsed.amount,
+        category: parsed.category,
+        merchant: parsed.merchant ?? "Misc",
+        note: parsed.note ?? "",
+        date: todayISO(),
+      });
+      setInput("");
+      toast.success(`Added ${formatINR(parsed.amount)} · ${parsed.merchant ?? parsed.category}`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not parse expense");
+    } finally {
+      setLoading(false);
     }
-    addExpense({
-      amount: parsed.amount,
-      category: parsed.category,
-      merchant: parsed.merchant,
-      note: parsed.note,
-      date: todayISO(),
-    });
-    setInput("");
-    toast.success(`Added ${formatINR(parsed.amount)} · ${parsed.merchant}`);
   }
 
   return (
@@ -75,7 +85,7 @@ function Home() {
       <section className="mb-8">
         <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
           <Sparkles className="h-4 w-4 text-primary" />
-          Just type it. We'll figure out the rest.
+          Just type it. AI figures out the rest.
         </div>
         <form onSubmit={submit} className="rounded-2xl border border-border bg-card p-3 shadow-soft focus-within:shadow-glow transition-shadow">
           <div className="flex flex-col sm:flex-row gap-2">
@@ -85,26 +95,27 @@ function Home() {
               placeholder="Type your expense... e.g. 250 zomato dinner"
               className="h-14 text-base border-0 shadow-none focus-visible:ring-0 bg-transparent px-3"
               autoFocus
+              disabled={loading}
             />
-            <Button type="submit" size="lg" className="h-14 px-6 shadow-glow bg-gradient-primary">
-              <Plus className="h-5 w-5" />
-              Add Expense
+            <Button
+              type="submit"
+              size="lg"
+              className="h-14 px-6 shadow-glow bg-gradient-primary"
+              disabled={loading || !input.trim()}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Parsing…
+                </>
+              ) : (
+                <>
+                  <Plus className="h-5 w-5" />
+                  Add Expense
+                </>
+              )}
             </Button>
           </div>
-
-          {preview && (
-            <div className="mt-3 flex flex-wrap items-center gap-2 rounded-xl bg-muted/60 px-3 py-2 text-sm">
-              <span className="text-muted-foreground text-xs uppercase tracking-wide">
-                Preview
-              </span>
-              <span className="font-semibold">{formatINR(preview.amount)}</span>
-              <span className="text-foreground">{preview.merchant}</span>
-              {preview.note && (
-                <span className="text-muted-foreground truncate">· {preview.note}</span>
-              )}
-              <CategoryChip category={preview.category} size="sm" />
-            </div>
-          )}
         </form>
 
         {/* Category legend */}
