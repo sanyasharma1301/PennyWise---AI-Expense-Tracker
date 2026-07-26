@@ -129,9 +129,11 @@ export function ExpenseItem({ expense }: { expense: Expense }) {
           <span className="font-semibold text-lg text-foreground">
             {formatINR(expense.amount)}
           </span>
-          <span className="font-medium text-foreground truncate">
-            {expense.merchant}
-          </span>
+          {expense.merchant && expense.merchant !== "Misc" && (
+            <span className="font-medium text-foreground truncate">
+              {expense.merchant}
+            </span>
+          )}
         </div>
         {expense.note && (
           <p className="mt-0.5 text-sm text-muted-foreground truncate">
