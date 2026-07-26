@@ -78,7 +78,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "PaisaWise — Expense tracker for Indian students" },
+      { title: "PennyWise — Expense tracker for Indian students" },
       {
         name: "description",
         content:

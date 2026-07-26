@@ -12,7 +12,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <Wallet className="h-4.5 w-4.5 text-primary-foreground" strokeWidth={2.4} />
             </span>
             <span className="font-display text-2xl leading-none">
-              Paisa<span className="text-primary">Wise</span>
+              Penny<span className="text-primary">Wise</span>
             </span>
           </Link>
           <nav className="flex items-center gap-1">

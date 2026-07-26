@@ -21,13 +21,13 @@ import {
 export const Route = createFileRoute("/insights")({
   head: () => ({
     meta: [
-      { title: "Insights · PaisaWise" },
+      { title: "Insights · PennyWise" },
       {
         name: "description",
         content:
           "AI-powered monthly insights: your top money leaks, personalised savings tips, and the one habit to change.",
       },
-      { property: "og:title", content: "PaisaWise Insights" },
+      { property: "og:title", content: "PennyWise Insights" },
       {
         property: "og:description",
         content: "AI-generated monthly insights from your real expense data.",

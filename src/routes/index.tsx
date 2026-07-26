@@ -20,13 +20,13 @@ import { Plus, Sparkles, Loader2 } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "PaisaWise — Smart expense tracking for Indian students" },
+      { title: "PennyWise — Smart expense tracking for Indian students" },
       {
         name: "description",
         content:
-          "Track daily expenses in plain Hindi-English. Just type '250 zomato dinner' — PaisaWise handles the rest.",
+          "Track daily expenses in plain Hindi-English. Just type '250 zomato dinner' — PennyWise handles the rest.",
       },
-      { property: "og:title", content: "PaisaWise — Track expenses in plain language" },
+      { property: "og:title", content: "PennyWise — Track expenses in plain language" },
       {
         property: "og:description",
         content:
