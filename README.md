@@ -1,29 +1,41 @@
-# Welcome to your Lovable project
+# PennyWise — AI Expense Tracker
 
-This project was built with [Lovable](https://lovable.dev).
+PennyWise is an AI-powered expense tracker designed for college students.
 
-## Build with Lovable
+## Features
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+- Add expenses using natural language
+- Automatically extract amount, merchant, description, and category
+- Automatic expense categorisation
+- Dashboard with spending summaries
+- Monthly AI-powered spending insights
+- Data stored locally on the user's device
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+## Example
 
-## Development
+Input:
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+> ₹250 Zomato dinner with friends
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+PennyWise automatically identifies:
 
-## Built with
+- Amount: ₹250
+- Merchant: Zomato
+- Category: Food
+- Note: dinner with friends
 
-- TanStack Start
-- TypeScript
+## Tech Stack
+
 - React
+- TypeScript
 - Tailwind CSS
+- AI-powered natural language expense parsing
+- LocalStorage
+
+## Live Demo
+
+[Try PennyWise](https://pennywise-sanya.lovable.app)
+
+## Author
+
+Sanya Sharma
