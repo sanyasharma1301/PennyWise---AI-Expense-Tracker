@@ -21,13 +21,13 @@ import { TrendingUp, Calendar, Trophy, Flame } from "lucide-react";
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Dashboard · PaisaWise" },
+      { title: "Dashboard · PennyWise" },
       {
         name: "description",
         content:
           "See where your money went this month with category breakdowns and weekly spending charts.",
       },
-      { property: "og:title", content: "PaisaWise Dashboard" },
+      { property: "og:title", content: "PennyWise Dashboard" },
       {
         property: "og:description",
         content: "Monthly totals, top categories, and weekly spend at a glance.",
