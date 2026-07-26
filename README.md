@@ -24,6 +24,18 @@ The application extracts the expense details, automatically categorises the tran
 - INR currency support
 - Local data persistence
 
+## Screenshots
+
+### Home — Add expenses in natural language
+![Homepage](homepage.png)
+
+### Dashboard — Spending overview
+![Dashboard](dashboard.png)
+
+### AI Insights — Money leaks & saving tips
+![Insights](insights1.png)
+![Insights continued](insights2.png)
+
 ## Example
 
 ### Input
